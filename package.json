@@ -1,0 +1,22 @@
+{
+  "name": "nofood.api",
+  "version": "1.0.0",
+  "description": "Api com nodeJs para utilizacao do aplicativo noFood",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/israelgoomes/app_food-api_nodeJS.git"
+  },
+  "author": "Israel Gomes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/israelgoomes/app_food-api_nodeJS/issues"
+  },
+  "homepage": "https://github.com/israelgoomes/app_food-api_nodeJS#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
