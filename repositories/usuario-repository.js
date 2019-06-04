@@ -16,7 +16,7 @@ async isEmailExiste(Email){
 
 async authenticate(Email, Senha){
     //criptografando a senha
-    let _hashSenha = mds(Senha);
+    let _hashSenha = md5(Senha);
     //fazendo a autenticação do login, e criando uma projeção para mostrar o que deve aparecer no select (nome email _id), utilizando o ._model pois dentro do base não havia os métodos necessários.
     return await this._base._model.findOne({ email: Email, senha: _hashSenha}, this._projection);
 }

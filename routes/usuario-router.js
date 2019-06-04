@@ -3,13 +3,16 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../constrollers/usuario-controller');
+const auth = require('../middlewares/authentication');
 
 let _ctrl = new controller();
 
-router.get('/', _ctrl.get);
-router.getById('/:id', _ctrl.getById);
+router.post('/autenticar', _ctrl.autenticar);
+
+router.get('/', auth, _ctrl.get);
+router.get('/:id', auth, _ctrl.getById);
 router.post('/', _ctrl.post);
-router.put('/:id',  _ctrl.put);
-router.delete('/:id', _ctrl.delete);
+router.put('/:id', auth, _ctrl.put);
+router.delete('/:id', auth,  _ctrl.delete);
 
 module.exports = router;

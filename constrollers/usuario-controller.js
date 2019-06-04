@@ -11,6 +11,8 @@ const validation = require('../bin/helpers/validation');
 //Não é necessário fazer o new no controller base pois foi feito um export direto nele (exports.put, etc ..), quando é feito um repositório com class ou function, é necessário dar um new
 const ctrlBase = require('../bin/base/controller-base');
 const md5 = require('md5');
+const jwt = require('jsonwebtoken');
+const variables = require('../bin/configuration/variables');
 
 function usuarioController(){
     
@@ -33,8 +35,8 @@ usuarioController.prototype.post = async (req, res) => {
     //validando se é um email
     _validationContract.isEmail(req.body.email, 'Email inválido!');
     _validationContract.isRequired(req.body.senha, 'Senha obrigatória');
-    _validationContract.isRequires(req.body.senhaConfirmacao, 'Senha de confirmação é obrigatória');
-    _validationContract.isTrue(req.body.senha == req.body.senhaConfirmacao, 'As senhas não coincidem');
+    _validationContract.isRequired(req.body.senhaConfirmacao, 'Senha de confirmação é obrigatória');
+    _validationContract.isTrue(req.body.senha != req.body.senhaConfirmacao, 'As senhas não coincidem');
 
     let usuarioIsEmailExiste = await _repo.isEmailExiste(req.body.email);
     if(usuarioIsEmailExiste){
@@ -65,6 +67,33 @@ usuarioController.prototype.put = async (req, res) => {
 
 usuarioController.prototype.delete = async (req, res) => {
   ctrlBase.delete(_repo, req, res);
+}
+
+usuarioController.prototype.autenticar = async(req, res) => {
+  let _validationContract = new validation();
+  _validationContract.isRequired(req.body.email, 'Informe seu email');
+  _validationContract.isEmail(req.body.email, 'O email informado é inválido!');
+  _validationContract.isRequired(req.body.senha, 'Informe sua senha');
+
+  //se o validation for false irá exibir a mensagem
+  if(!_validationContract.isValid()){
+    res.status(400).send({message: 'Não foi possível efetuar o login', validation: _validationContract.errors() });
+    return;
+  }
+  //caso esteja tudo certo será feito a autenticação pelo repositório que tem o método authenticate.
+ let usuarioEncontrado = await _repo.authenticate(req.body.email, req.body.senha);
+      //se houver usuário é gerado um token e devolvido para o usuario final.
+      if(usuarioEncontrado){
+        res.status(200).send({
+          //mandando uma propriedade com os dados do usuario caso queira armazenar, colocando nome, email, etc
+          usuario: usuarioEncontrado,
+          //mandando um token assinando o usuarioEncontrado, ou seja, enviando um token e um usuário
+          token: jwt.sign({ user: usuarioEncontrado}, variables.Security.secretyKey)
+        })
+        //caso usuário não seja encontrado
+      }else {
+          res.status(404).send({message: 'Usuário e senha informado são inválidos'});
+      }
 }
 
 module.exports = usuarioController;

@@ -9,7 +9,7 @@ const usuarioModel = new schema ({
     email: {type: String, required: true },
     senha: {type: String, required: true},
     foto: {type: String},
-    ativo: {type: Boolean, required: true},
+    ativo: {type: Boolean},
     dataCriacao: {type: Date, default: new Date()}
 
 }, {versionKey: false});
