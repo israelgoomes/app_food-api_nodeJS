@@ -7,8 +7,11 @@ const auth = require('../middlewares/authentication');
 
 let _ctrl = new controller();
 
+//autenticação e registro de usuários, não seve exigir o token, pois ele ainda não existe
 router.post('/autenticar', _ctrl.autenticar);
+router.post('/register', _ctrl.post);
 
+//Token auth required
 router.get('/', auth, _ctrl.get);
 router.get('/:id', auth, _ctrl.getById);
 router.post('/', _ctrl.post);

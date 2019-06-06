@@ -26,10 +26,10 @@ try {
 
 exports.put = async(repository, validationContract, req, res) => {
 
-    let data = req.body
-    let id = req.params.id
+   
 try {
-    
+    let data = req.body;
+    let id = req.params.id;
 
     if(!validationContract){
         res.status(400).send({message: 'Existem dados inválidos na sua requisição',
@@ -39,8 +39,7 @@ try {
     let resultado =  await repository.update(id, data);
     res.status(201).send(resultado);
 
-} catch (err
-    ) {
+} catch (err) {
     console.log('Update com erro, motivo: ', err);
     res.status(500).send({message: 'Erro no processamento', error: err});
     

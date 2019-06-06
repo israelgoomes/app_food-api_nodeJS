@@ -10,8 +10,7 @@ if(token){
     try {
         //a minha informação decodificada, Verificando o token
         let decoded = await jwt.verify(token, variables.Security.secretyKey);
-        console.log('Teste', decoded);
-        //pegando o token já validade, o que significa que o usuario está logado e guardando em req.usuarioLogado. Pode ser usado depois para exibir qual usuário está logado e quais permissões ele tem, por exemplo.
+        //pegando o token já validado, o que significa que o usuario está logado e guardando em req.usuarioLogado. Pode ser usado depois para exibir qual usuário está logado e quais permissões ele tem, por exemplo.
         req.usuarioLogado = decoded;
         next();
     } catch (error) {
