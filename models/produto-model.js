@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
@@ -10,6 +10,8 @@ const produtoModel = new schema(
     preco: { type: Number, required: true },
     foto: { type: String, required: true },
     ativa: { type: Boolean, required: true, default: true },
+    //criando um id para criar o relacionamento, na referência vai o nome dado ao modelo.
+    categoria: {type: schema.Types.ObjectId, ref: 'Categoria'},
     dataCriacao: { type: Date, default: Date.now }
   },
   { versionKey: false }

@@ -12,12 +12,12 @@ const usuarioRouter = require('../routes/usuario-router');
 //gerando o primeiro servidor de api, app será o servidor.
 const app = express();
 //importando o body-parser
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
 //identificando a url e substituindo alguns caracteres estranhos
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 
 //configurando a conexão com i banco de dados
-mongoose.connect(variables.Database.connection);
+mongoose.connect(variables.Database.connection, {useNewUrlParser: true});
 
 //Confirando o auth para todas as rotas de uma vez só:
 //app.use(auth);

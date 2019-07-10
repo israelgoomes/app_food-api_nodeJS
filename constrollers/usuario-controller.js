@@ -1,9 +1,10 @@
-"use strict";
+'use strict';
 
 const mongoose = require("mongoose");
+/*
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useCreateIndex", true);
-mongoose.set("useFindAndModify", false);
+mongoose.set("useFindAndModify", false);*/
 const repository = require("../repositories/usuario-repository");
 const _repo = new repository();
 const validation = require("../bin/helpers/validation");
@@ -28,6 +29,7 @@ usuarioController.prototype.getById = async (req, res) => {
 //criando e autenticando o post de usuários.
 usuarioController.prototype.post = async (req, res) => {
   let _validationContract = new validation();
+
   _validationContract.isRequired(req.body.nome, "Informe seu nome");
   //tornando obrigatório o email
   _validationContract.isRequired(req.body.email, "Informe seu email");
@@ -38,21 +40,26 @@ usuarioController.prototype.post = async (req, res) => {
     req.body.senhaConfirmacao,
     "Senha de confirmação é obrigatória"
   );
+
+
   _validationContract.isTrue(
-    req.body.senha != req.body.senhaConfirmacao,
-    "As senhas não coincidem"
-  );
+    req.body.senha != req.body.senhaConfirmacao, "As senhas não coincidem");
+    if(req.body.email){
 
   let usuarioIsEmailExiste = await _repo.isEmailExiste(req.body.email);
   if (usuarioIsEmailExiste) {
     _validationContract.isTrue(
       usuarioIsEmailExiste.nome != undefined,
-      `Já existe o e-mail ${req.body.email} cadastrado em nossa base.`
-    );
+      `Já existe o e-mail ${req.body.email} cadastrado em nossa base.`);
   }
+}
   //criptografa a senha do usuário
+  if(req.body.senha)
   req.body.senha = md5(req.body.senha);
   ctrlBase.post(_repo, _validationContract, req, res);
+  
+  
+
 };
 
 usuarioController.prototype.put = async (req, res) => {
@@ -119,7 +126,7 @@ usuarioController.prototype.autenticar = async (req, res) => {
   } else {
     res
       .status(404)
-      .send({ message: "Usuário e senha informado são inválidos" });
+      .send({ message: "Usuário e senha informado é inválido" });
   }
 };
 

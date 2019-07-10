@@ -1,17 +1,16 @@
-"use strict";
+'use strict';
 
 //registrando a categoria model
-const mongoose = require("mongoose");
 //importando o model de cateogira através do nome colocado na exportação ná página da model.
 const repository = require("../repositories/categoria-repository");
 const ctrlBase = require("../bin/base/controller-base");
 const _repo = new repository();
 const validation = require("../bin/helpers/validation");
-
+/*
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
-
+*/
 function categoriaController() {}
 
 //C R U D
@@ -22,7 +21,7 @@ categoriaController.prototype.post = async (req, res) => {
   let _validationContract = new validation();
 
   _validationContract.isRequired(req.body.titulo, "Titulo obrigatório");
-  _validationContract.isRequired(req.body.foto, "A foto é obrigatória");
+  //_validationContract.isRequired(req.body.foto, "A foto é obrigatória");
 
   ctrlBase.post(_repo, _validationContract, req, res);
 

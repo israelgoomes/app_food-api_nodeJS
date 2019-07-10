@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 const repository = require("../repositories/produto-repository");
 const _repo = new repository();
 const validation = require("../bin/helpers/validation");
@@ -13,6 +13,8 @@ produtoController.prototype.post = async (req, res) => {
   _validationContract.isRequired(req.body.descricao, "Digite uma desccrição");
   _validationContract.isRequired(req.body.preco, "Informe o preço.");
   _validationContract.isRequired(req.body.foto, "A foto é obrigatória.");
+  _validationContract.isRequired(req.body.categoria, "Digite à que categoria o produto pertence");
+
   //se o preço for informado, será checado se o preço é igual a 0
   if (req.body.preco) {
     _validationContract.isTrue(req.body.preco == 0, "Digite um preço válido!");
@@ -28,6 +30,8 @@ produtoController.prototype.put = async (req, res) => {
   _validationContract.isRequired(req.body.descricao, "Digite uma desccrição");
   _validationContract.isRequired(req.body.preco, "Informe o preço.");
   _validationContract.isRequired(req.body.foto, "A foto é obrigatória.");
+  _validationContract.isRequired(req.body.categoria, "Digite à que categoria o produto pertence");
+
 
   if (req.body.preco) {
     _validationContract.isTrue(req.body.preco == 0, "Digite um preço válido!");

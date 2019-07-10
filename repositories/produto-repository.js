@@ -1,5 +1,3 @@
-'use strict'
-
 require('../models/produto-model');
 const base = require('../bin/base/repository-base');
 
@@ -19,7 +17,9 @@ async update(id, data){
 }
 
 async getAll(){
-    return await this._base.getAll();
+       //trazendo todos os dados e populando uma relação, no caso da da categoria, e informando a projeção dos 
+        //dados que deseja trazer.
+       return await this._base._model.find().populate('categoria','_id titulo' );
 }
 
 async getById(id){
